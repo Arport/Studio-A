@@ -1,37 +1,127 @@
 # Affiliate AI Generator
 
-Blueprint aplikasi untuk workflow affiliate content production berbasis AI.
+Aplikasi untuk membantu affiliate marketer membuat materi iklan AI secara cepat dan konsisten: mulai dari input produk, setup visual, auto storyboard, edit scene, hingga export prompt/script.
 
-## Stack yang disarankan
+---
 
-- **Frontend:** Next.js + Tailwind CSS + Canvas/Konva.js (untuk storyboard editor)
-- **AI Layer:** OpenAI API (prompt generator), Gemini/Veo, Runway Gen-3
-- **Export:** image, storyboard PDF, prompt file
+## 1) Tujuan Produk
 
-## Flow Aplikasi
+**Masalah yang diselesaikan:**
+- Proses bikin konten affiliate biasanya manual, lama, dan sulit menjaga konsistensi visual antar scene.
+- Prompt ke video AI sering tidak rapi dan tidak reusable.
 
-1. **Product Input**
-   - Upload product image + model image (opsional)
-   - Input product name, description, target market, category
-   - AI auto-generate headline, selling point, hook, CTA, script
-2. **Studio Setup**
-   - Active assets, visual direction, composition focus, output settings
-3. **Storyboard Generator**
-   - Pilih aspect ratio: `9:16`, `1:1`, `16:9`, `4:5`
-   - Generate scene otomatis
-4. **Scene Edit + Download**
-   - Regenerate scene
-   - Edit prompt
-   - Download storyboard PDF / prompt script
+**Outcome yang diinginkan:**
+- User bisa generate storyboard iklan dalam hitungan menit.
+- Prompt siap pakai untuk OpenAI/Gemini/Veo/Runway.
+- Script affiliate siap publish untuk TikTok, Shopee, IG Reels, YouTube Shorts.
 
-## Fitur penting
+---
 
-- **AI Prompt Optimizer**: prompt otomatis berdasarkan product + studio setup
-- **Consistency Engine**: menjaga konteks produk antar scene
-- **Smart Scene Generator**: jumlah scene dinamis berdasarkan durasi output
-- **Affiliate Script Generator**: siap dikembangkan untuk TikTok, Shopee, Instagram, YouTube Shorts
+## 2) Stack Rekomendasi
 
-## Struktur project
+### Frontend
+- Next.js App Router
+- Tailwind CSS
+- Konva.js / HTML Canvas (editor storyboard visual)
+
+### AI Layer
+- OpenAI API (product copy + prompt optimizer)
+- Gemini / Veo (video generation)
+- Runway Gen-3 (video generation alternatif)
+
+### Export Layer
+- Image per-scene
+- Storyboard PDF
+- Prompt script `.txt`/`.json`
+
+---
+
+## 3) End-to-End Flow
+
+```text
+UPLOAD PRODUCT
+     ↓
+AI GENERATE PRODUCT INFO
+     ↓
+STUDIO SETUP
+     ↓
+GENERATE STORYBOARD
+     ↓
+EDIT SCENE
+     ↓
+DOWNLOAD (IMAGE / PDF / PROMPT)
+```
+
+### Step 1 — Product Input
+Input:
+- Product image
+- Model image (opsional)
+- Product name
+- Product description
+- Target market
+- Product category
+
+AI Output:
+- Headline
+- 3 selling points
+- Hook
+- CTA
+- Script awal
+
+### Step 2 — Studio Setup
+Konfigurasi produksi:
+- Active Assets: product, model, logo, background, props
+- Visual Direction: commercial / ugc / cinematic / product showcase / lifestyle
+- Composition Focus: product / model / balanced / macro / wide
+- Output Settings: durasi + environment
+
+### Step 3 — Storyboard Generator
+- Pilih aspect ratio: `9:16`, `1:1`, `16:9`, `4:5`
+- Smart Scene Generator menentukan jumlah scene otomatis berdasarkan durasi
+
+### Step 4 — Scene Edit + Download
+- Regenerate scene per item
+- Edit prompt per scene
+- Download storyboard PDF
+- Download prompt script
+
+---
+
+## 4) Arsitektur Modul
+
+```text
+app/page.tsx
+ ├─ components/ProductInput.tsx
+ ├─ components/StudioSetup.tsx
+ ├─ components/StoryboardGenerator.tsx
+ ├─ components/StoryboardResult.tsx
+ └─ utils/sceneGenerator.ts
+      └─ lib/prompt.js
+
+lib/ai.js        -> AI product analyzer (placeholder provider adapter)
+lib/prompt.js    -> prompt builder + prompt optimizer base
+lib/video.js     -> adapter contract (Gemini/Veo/Runway)
+utils/export.js  -> export prompt/storyboard file
+```
+
+Lihat detail arsitektur teknis di: **`docs/ARCHITECTURE.md`**.
+
+---
+
+## 5) Fitur Core yang Sudah Diskaffold
+
+1. **AI Prompt Optimizer**
+   - Prompt dibangun terstruktur dari product + studio + scene context.
+2. **Consistency Engine (basic)**
+   - Scene generator menjaga produk, tone, dan environment tetap konsisten.
+3. **Smart Scene Generator**
+   - Scene count auto menyesuaikan panjang video (5/10/15/30 detik).
+4. **Affiliate Script Generator (base-ready)**
+   - Fondasi untuk format script lintas platform (TikTok/Shopee/IG/Shorts).
+
+---
+
+## 6) Struktur Project
 
 ```txt
 /app
@@ -51,4 +141,8 @@ Blueprint aplikasi untuk workflow affiliate content production berbasis AI.
 /utils
   sceneGenerator.ts
   export.js
+
+/docs
+  ARCHITECTURE.md
+  PROMPT_TEMPLATES.md
 ```

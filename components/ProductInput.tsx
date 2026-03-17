@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { generateProductInfo } from '../lib/ai';
+import { generateProductInfo, generateAffiliateScripts } from '../lib/ai';
 
 export interface ProductInputData {
   productImage?: File | null;
@@ -32,10 +32,20 @@ export function ProductInput({
     targetMarket: '',
     category: '',
   });
+  const [affiliateScripts, setAffiliateScripts] = useState<Record<string, string> | null>(null);
 
   const handleGenerateDescription = async () => {
     const aiOutput = await generateProductInfo(form);
     setForm((prev) => ({ ...prev, aiOutput, description: aiOutput.script }));
+  };
+
+  const handleGenerateAffiliateScripts = async () => {
+    const result = await generateAffiliateScripts({
+      productName: form.productName,
+      benefits: form.aiOutput?.sellingPoints || [],
+      targetMarket: form.targetMarket,
+    });
+    setAffiliateScripts(result.scripts);
   };
 
   return (
@@ -112,6 +122,12 @@ export function ProductInput({
           Generate Description (AI)
         </button>
         <button
+          onClick={handleGenerateAffiliateScripts}
+          className="rounded bg-indigo-500 px-4 py-2 text-sm font-medium text-slate-950"
+        >
+          Generate Affiliate Scripts
+        </button>
+        <button
           onClick={() => onContinue(form)}
           className="rounded bg-emerald-500 px-4 py-2 text-sm font-medium text-slate-950"
         >
@@ -125,6 +141,18 @@ export function ProductInput({
           <p className="mt-2">Headline: {form.aiOutput.headline}</p>
           <p>Hook: {form.aiOutput.hook}</p>
           <p>CTA: {form.aiOutput.callToAction}</p>
+        </div>
+      )}
+
+      {affiliateScripts && (
+        <div className="mt-4 rounded-lg border border-indigo-500/40 bg-indigo-500/10 p-4 text-xs space-y-2">
+          <p className="font-semibold text-sm">Affiliate Script Generator</p>
+          {Object.entries(affiliateScripts).map(([platform, script]) => (
+            <div key={platform}>
+              <p className="font-medium uppercase">{platform}</p>
+              <p>{script}</p>
+            </div>
+          ))}
         </div>
       )}
     </section>
