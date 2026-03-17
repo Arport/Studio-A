@@ -17,7 +17,7 @@ export default function StudioSetup({ setup, onChange }: Props) {
   };
 
   return (
-    <section className="rounded-2xl border border-slate-800 bg-slate-900/60 p-6">
+    <section className="glass rounded-2xl p-6">
       <h2 className="text-xl font-semibold">Step 2 — Studio Setup</h2>
       <p className="mt-1 text-sm text-slate-400">Atur visual direction, focus, asset aktif, dan output setup.</p>
 

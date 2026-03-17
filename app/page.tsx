@@ -16,6 +16,8 @@ import {
 } from '@/utils/export';
 import { buildScenes, getSceneCountByLength, type StoryScene, type StudioSetup } from '@/utils/sceneGenerator';
 
+const steps = ['Product Input', 'Studio Setup', 'Storyboard', 'Edit + Download'];
+
 export default function HomePage() {
   const [loading, setLoading] = useState(false);
   const [product, setProduct] = useState({
@@ -147,11 +149,29 @@ export default function HomePage() {
   };
 
   return (
-    <main className="mx-auto flex min-h-screen w-full max-w-6xl flex-col gap-4 p-4 md:p-8">
-      <header className="rounded-2xl border border-slate-800 bg-gradient-to-r from-blue-500/10 via-violet-500/10 to-fuchsia-500/10 p-6">
-        <h1 className="text-3xl font-bold">Studio-A · Affiliate AI Generator</h1>
-        <p className="mt-2 text-slate-300">Aplikasi untuk membantu affiliate marketer membuat materi iklan AI cepat, konsisten, dan reusable.</p>
-        <p className="text-xs text-slate-400">Flow: Upload → AI Info → Setup → Storyboard → Edit → Download</p>
+    <main className="mx-auto flex min-h-screen w-full max-w-7xl flex-col gap-4 p-4 md:p-8">
+      <header className="glass grid-bg overflow-hidden rounded-3xl p-6 md:p-8">
+        <div className="flex flex-wrap items-center justify-between gap-4">
+          <div>
+            <p className="inline-flex rounded-full border border-blue-400/30 bg-blue-500/10 px-3 py-1 text-xs text-blue-200">Studio-A Toolkit</p>
+            <h1 className="mt-3 text-3xl font-bold md:text-4xl">Affiliate AI Generator</h1>
+            <p className="mt-2 max-w-2xl text-slate-300">Bangun materi iklan affiliate lebih cepat: upload produk, generate copy, atur studio visual, buat storyboard, lalu export aset.</p>
+          </div>
+          <div className="glass rounded-2xl p-4 text-sm">
+            <p className="text-slate-300">Current Setup</p>
+            <p className="font-semibold">{setup.style} • {setup.environment} • {setup.length}</p>
+            <p className="text-xs text-slate-400">Aspect ratio {aspectRatio}</p>
+          </div>
+        </div>
+
+        <div className="mt-6 grid gap-2 md:grid-cols-4">
+          {steps.map((step, idx) => (
+            <div key={step} className="glass rounded-xl p-3 text-xs">
+              <p className="text-slate-400">Step {idx + 1}</p>
+              <p className="font-medium">{step}</p>
+            </div>
+          ))}
+        </div>
       </header>
 
       <ProductInput onGenerate={handleGenerateProduct} generated={generated} loading={loading} />

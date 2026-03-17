@@ -10,7 +10,7 @@ type Props = {
 
 export default function StoryboardGenerator({ aspectRatio, sceneCount, onAspectRatioChange, onGenerate, disabled }: Props) {
   return (
-    <section className="rounded-2xl border border-slate-800 bg-slate-900/60 p-6">
+    <section className="glass rounded-2xl p-6">
       <h2 className="text-xl font-semibold">Step 3 — Storyboard Generator</h2>
       <p className="mt-1 text-sm text-slate-400">Smart Scene Generator akan menyesuaikan jumlah scene berdasar durasi.</p>
       <div className="mt-4 flex flex-wrap gap-2">

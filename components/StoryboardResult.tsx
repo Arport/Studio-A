@@ -36,28 +36,36 @@ export default function StoryboardResult({
   }
 
   return (
-    <section className="rounded-2xl border border-slate-800 bg-slate-900/60 p-6">
+    <section className="glass rounded-2xl p-6">
       <h2 className="text-xl font-semibold">Step 4 — Scene Edit + Download</h2>
       <div className="mt-4 grid gap-3 md:grid-cols-2">
         {scenes.map((scene) => (
-          <article key={scene.id} className="rounded-xl border border-slate-700 bg-slate-950 p-4">
-            <h3 className="font-semibold">Scene {scene.id}</h3>
-            <p className="mt-1 text-sm text-slate-300">{scene.action}</p>
-            <p className="mt-1 text-xs text-slate-400">Camera: {scene.camera}</p>
-            <p className="text-xs text-slate-400">Text: {scene.text}</p>
-            <textarea
-              value={scene.prompt}
-              onChange={(e) => onEditPrompt(scene.id, e.target.value)}
-              rows={4}
-              className="mt-3 w-full rounded-lg border border-slate-700 bg-slate-900 p-2 text-xs"
-            />
-            <div className="mt-3 flex flex-wrap gap-2">
-              <button className="rounded-lg border border-slate-600 px-3 py-1 text-sm hover:bg-slate-800" onClick={() => onRegenerate(scene.id)}>
-                Regenerate
-              </button>
-              <button className="rounded-lg border border-sky-600 px-3 py-1 text-sm hover:bg-sky-900/40" onClick={() => onDownloadImage(scene.id)}>
-                Download Image
-              </button>
+          <article key={scene.id} className="overflow-hidden rounded-xl border border-slate-700 bg-slate-950">
+            <div className="grid-bg flex h-36 items-end justify-between bg-gradient-to-br from-blue-500/20 via-violet-500/10 to-emerald-500/10 p-4">
+              <div>
+                <p className="text-xs text-slate-300">Scene {scene.id}</p>
+                <p className="text-sm font-medium capitalize">{scene.type}</p>
+              </div>
+              <span className="rounded-full border border-white/20 bg-black/30 px-2 py-1 text-[10px]">{scene.environment}</span>
+            </div>
+            <div className="p-4">
+              <p className="text-sm text-slate-300">{scene.action}</p>
+              <p className="mt-1 text-xs text-slate-400">Camera: {scene.camera}</p>
+              <p className="text-xs text-slate-400">Text: {scene.text}</p>
+              <textarea
+                value={scene.prompt}
+                onChange={(e) => onEditPrompt(scene.id, e.target.value)}
+                rows={4}
+                className="mt-3 w-full rounded-lg border border-slate-700 bg-slate-900 p-2 text-xs"
+              />
+              <div className="mt-3 flex flex-wrap gap-2">
+                <button className="rounded-lg border border-slate-600 px-3 py-1 text-sm hover:bg-slate-800" onClick={() => onRegenerate(scene.id)}>
+                  Regenerate
+                </button>
+                <button className="rounded-lg border border-sky-600 px-3 py-1 text-sm hover:bg-sky-900/40" onClick={() => onDownloadImage(scene.id)}>
+                  Download Image
+                </button>
+              </div>
             </div>
           </article>
         ))}
@@ -65,7 +73,7 @@ export default function StoryboardResult({
 
       <div className="mt-4 grid gap-3 rounded-xl border border-slate-700 bg-slate-950 p-4 md:grid-cols-2">
         {Object.entries(scripts).map(([platform, script]) => (
-          <div key={platform}>
+          <div key={platform} className="rounded-lg border border-slate-800 bg-slate-900/70 p-3">
             <p className="text-sm font-semibold uppercase text-slate-300">{platform}</p>
             <p className="text-xs text-slate-400">{script}</p>
           </div>
