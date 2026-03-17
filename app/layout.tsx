@@ -2,8 +2,8 @@ import './globals.css';
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: 'Affiliate AI Generator',
-  description: 'Generate storyboard, script, and prompts for affiliate ads.'
+  title: 'Studio-A | Affiliate AI Generator',
+  description: 'Generate product copy, storyboard scenes, optimized prompts, and export-ready affiliate assets.'
 };
 
 export default function RootLayout({

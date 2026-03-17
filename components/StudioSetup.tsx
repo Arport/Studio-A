@@ -1,27 +1,48 @@
 'use client';
 
-type Setup = {
-  style: 'commercial' | 'ugc' | 'cinematic' | 'showcase' | 'lifestyle';
-  focus: 'product' | 'model' | 'balanced' | 'macro';
-  environment: 'studio' | 'cafe' | 'outdoor' | 'bedroom' | 'gym' | 'office';
-  length: '5s' | '10s' | '15s' | '30s';
-};
+import type { StudioSetup as Setup } from '@/utils/sceneGenerator';
 
 type Props = {
   setup: Setup;
   onChange: (setup: Setup) => void;
 };
 
+const allAssets = ['product', 'model', 'logo', 'background', 'props'];
+
 export default function StudioSetup({ setup, onChange }: Props) {
+  const toggleAsset = (asset: string) => {
+    const exists = setup.activeAssets.includes(asset);
+    const next = exists ? setup.activeAssets.filter((item) => item !== asset) : [...setup.activeAssets, asset];
+    onChange({ ...setup, activeAssets: next });
+  };
+
   return (
     <section className="rounded-2xl border border-slate-800 bg-slate-900/60 p-6">
       <h2 className="text-xl font-semibold">Step 2 — Studio Setup</h2>
+      <p className="mt-1 text-sm text-slate-400">Atur visual direction, focus, asset aktif, dan output setup.</p>
+
+      <div className="mt-4">
+        <p className="mb-2 text-sm font-medium">Active Assets</p>
+        <div className="flex flex-wrap gap-2">
+          {allAssets.map((asset) => (
+            <button
+              key={asset}
+              onClick={() => toggleAsset(asset)}
+              className={`rounded-full border px-3 py-1 text-xs ${setup.activeAssets.includes(asset) ? 'border-emerald-400 bg-emerald-500/20' : 'border-slate-700'}`}
+            >
+              {asset}
+            </button>
+          ))}
+        </div>
+      </div>
+
       <div className="mt-4 grid gap-3 md:grid-cols-2">
         <Select label="Visual Direction" value={setup.style} onValue={(value) => onChange({ ...setup, style: value as Setup['style'] })} options={['commercial', 'ugc', 'cinematic', 'showcase', 'lifestyle']} />
-        <Select label="Composition Focus" value={setup.focus} onValue={(value) => onChange({ ...setup, focus: value as Setup['focus'] })} options={['product', 'model', 'balanced', 'macro']} />
+        <Select label="Composition Focus" value={setup.focus} onValue={(value) => onChange({ ...setup, focus: value as Setup['focus'] })} options={['product', 'model', 'balanced', 'macro', 'wide']} />
         <Select label="Environment" value={setup.environment} onValue={(value) => onChange({ ...setup, environment: value as Setup['environment'] })} options={['studio', 'cafe', 'outdoor', 'bedroom', 'gym', 'office']} />
         <Select label="Output Length" value={setup.length} onValue={(value) => onChange({ ...setup, length: value as Setup['length'] })} options={['5s', '10s', '15s', '30s']} />
       </div>
+
       <pre className="mt-4 rounded-lg bg-slate-950 p-3 text-xs text-slate-300">{JSON.stringify(setup, null, 2)}</pre>
     </section>
   );
